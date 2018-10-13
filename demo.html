@@ -1,24 +1,19 @@
 <html>
 	<head>
-		<title>Select2 Multiselect</title>
+		<title>Fancy Loading Bar</title>
 		<meta charset="UTF-8">
-    		<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
-    		<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-    		<link type="text/css" rel="stylesheet" href="css/select2-multi-check.css" />
-		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-		<script type="text/javascript" src="js/select2-multi-check.js"></script>
+    		<link type="text/css" rel="stylesheet" href="css/loading_bar.css" />
 	</head>
   <body>
-    <select class="select2-element" data-multi-select2-init data-field-name="Filter" multiple>
-      	<optgroup label="Swedish Cars">
-      		<option value="volvo">Volvo</option>
-	      	<option value="saab">Saab</option>
-	</optgroup>
-	<optgroup label="German Cars">
-      		<option value="mercedes">Mercedes</option>
-      		<option value="audi">Audi</option>
-	</optgroup>
-    </select>
+    <div class="loading-container">
+    <div class="loading"></div>
+    <div class="loading-text-container">
+        <div class="loading-text"><div>loading</div></div>
+        <div class="loading-text"><div>waiting</div></div>
+        <div class="loading-text"><div>moving</div></div>
+        <div class="loading-text"><div>resting</div></div>
+        <div class="loading-text"><div>sleeping</div></div>
+    </div>
+</div>
   </body>
 </html>
