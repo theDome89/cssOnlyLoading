@@ -21,6 +21,20 @@ body {
     opacity: 0.25;
   }
 }
+@keyframes punctation-walk {
+  0% {
+    content: " ";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
 .loading-container {
   margin: 40px auto;
   height: 320px;
@@ -35,7 +49,7 @@ body {
 }
 .loading-container .loading-text-container {
   position: absolute;
-  animation: rotate-loading 10s infinite;
+  animation: rotate-loading 20s infinite;
   width: 100%;
   height: 100%;
   left: 65%;
@@ -43,7 +57,7 @@ body {
 .loading-container .loading-text-container .loading-text {
   color: #ffffff;
   font-family: "Helvetica Neue, " Helvetica ", " "arial";
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
   width: 100%;
@@ -56,6 +70,12 @@ body {
 }
 .loading-container .loading-text-container .loading-text div {
   transform: rotate(90deg);
+  opacity: 0.25;
+  animation: loading-text-opacity 1s ease-in-out infinite;
+}
+.loading-container .loading-text-container .loading-text div::after {
+  content: " ";
+  animation: punctation-walk 1s ease-in-out infinite;
 }
 .loading-container .loading-text-container .loading-text:nth-child(1) {
   transform: rotate(72deg);
