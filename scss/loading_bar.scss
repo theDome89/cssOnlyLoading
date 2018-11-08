@@ -1,6 +1,4 @@
-$mode: 0;
 $textHeight: 100;
-$htmlElements: 8;
 $baseColor: #99c42e;
 $hoverColor: #E45635;
 $walking-line-duration: 5;
@@ -83,14 +81,14 @@ body {background: #333333;}
     left: -75px;
     width: 200px;
     text-align: center;
-    
+
     &::after {
       content: ' ';
       position: absolute;
       animation: punctation-walk #{$punctation-walk-duration}s ease-in-out infinite;
     }
   }
-  
+
   $factor: 360 / $count;
   @for $i from 1 through $count {
     &:nth-child(#{$i}) {
@@ -99,31 +97,171 @@ body {background: #333333;}
   }
 }
 
-.loading-container { 
-   margin: 40px auto;
-   height: 320px;
-   position: relative;
-   width: 320px;
-   display: flex;
-   flex-flow: row nowrap;
-   justify-content: center;
-   align-items: center;
-   overflow: hidden;
-   
-   @if $mode != 2 {
+.loading-container {
+   &-mode-0 {
+      margin: 40px auto;
+      height: 320px;
+      position: relative;
+      width: 320px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      
      border-radius: 100%;
-   }
-   
-   .loading-text-container {
-     position: absolute;
-     
-     @if $mode == 1 {
-       animation: rotate-text #{$htmlElements * $htmlElements}s infinite;
+
+     .loading-text-container {
+        position: absolute;
+        
+        overflow: hidden;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        
+        @for $i from 1 through $maxCount {
+          .text-wrapper-#{$i} {
+            position: relative;
+            left: 0;
+            right: 0;
+            animation: movingUp #{$i * $i}s linear infinite;
+
+            @include slideText($i);
+          }
+        }
+
+        .loading-text {
+        color: $baseColor;
+        font-family: "Helvetica Neue, "Helvetica", ""arial";
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        div {
+          opacity: 0.25;
+          animation: loading-text-opacity #{$loading-text-opacity-duration}s ease-in-out infinite;
+          text-align: center;
+
+          &::after {
+            content: ' ';
+            position: absolute;
+            animation: punctation-walk #{$punctation-walk-duration}s ease-in-out infinite;
+          }
+        }
+       }
+     }
+
+     .loading {
+       transform-origin: 50% 50%;
+       transition: all 0.5s ease-in-out;
        width: 100%;
        height: 100%;
-       left: 100%;
+
+       border-radius: 100%;
+       animation: rotate-loading #{$circle-rotation}s linear 0s infinite normal;
+       border: 5px solid transparent;
+       border-color: transparent $baseColor transparent $baseColor;
      }
-     @else {
+
+     &:hover {
+       .loading {
+           border-color: transparent $hoverColor transparent $hoverColor;
+
+         .dashing {
+           div {
+             border-color: $hoverColor;
+           }
+         }
+       }
+     }
+   }
+   
+   &-mode-1 {
+      margin: 40px auto;
+      height: 320px;
+      position: relative;
+      width: 320px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      
+     border-radius: 100%;
+
+     .loading-text-container {
+        position: absolute;
+        
+        animation: rotate-text #{$maxCount * $maxCount}s infinite;
+        width: 100%;
+        height: 100%;
+        left: 100%;
+        
+        @for $i from 1 through $maxCount {
+         .text-wrapper-#{$i} {
+           .loading-text {
+              color: $baseColor;
+              font-family: "Helvetica Neue, "Helvetica", ""arial";
+              font-size: 20px;
+              font-weight: bold;
+              text-transform: uppercase;
+
+              width: 100%;
+              height: #{$textHeight * 1%};
+
+              @include rollText($i);
+             }
+         }
+       }
+     }
+
+     .loading {
+         transform-origin: 50% 50%;
+         transition: all 0.5s ease-in-out;
+         width: 100%;
+         height: 100%;
+
+         border-radius: 100%;
+         animation: rotate-loading #{$circle-rotation}s linear 0s infinite normal;
+         border: 5px solid transparent;
+         border-color: transparent $baseColor transparent $baseColor;
+       }
+
+       &:hover {
+         .loading {
+             border-color: transparent $hoverColor transparent $hoverColor;
+
+           .dashing {
+             div {
+               border-color: $hoverColor;
+             }
+           }
+         }
+       }
+   }
+
+   &-mode-2 {
+      margin: 40px auto;
+      height: 320px;
+      position: relative;
+      width: 320px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      
+     .loading-text-container {
+       position: absolute;
+       
        overflow: hidden;
        top: 10px;
        left: 10px;
@@ -140,127 +278,112 @@ body {background: #333333;}
            @include slideText($i);
          }
        }
+
+       .loading-text {
+         color: $baseColor;
+         font-family: "Helvetica Neue, "Helvetica", ""arial";
+         font-size: 20px;
+         font-weight: bold;
+         text-transform: uppercase;
+         
+         width: 100%;
+         height: 300px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         position: relative;
+
+         div {
+           opacity: 0.25;
+           animation: loading-text-opacity #{$loading-text-opacity-duration}s ease-in-out infinite;
+           text-align: center;
+
+           &::after {
+             content: ' ';
+             position: absolute;
+             animation: punctation-walk #{$punctation-walk-duration}s ease-in-out infinite;
+           }
+         }
+       }
      }
-     
-      .loading-text {
-        color: $baseColor;
-        font-family: "Helvetica Neue, "Helvetica", ""arial";
-        font-size: 20px;
-        font-weight: bold;
-        text-transform: uppercase;
-        
-        @if $mode == 1 {
-          width: 100%;
-          height: #{$textHeight * 1%};
-          
-          @include rollText($htmlElements); 
-        }
-        @else {
-          width: 100%;
-          height: 300px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
 
-          div {
-            opacity: 0.25;
-            animation: loading-text-opacity #{$loading-text-opacity-duration}s ease-in-out infinite;
-            text-align: center;
-
-            &::after {
-              content: ' ';
-              position: absolute;
-              animation: punctation-walk #{$punctation-walk-duration}s ease-in-out infinite;
-            }
-          }
-        }
-      }
-   }
-   
-   .loading {
+     .loading {
        transform-origin: 50% 50%;
        transition: all 0.5s ease-in-out;
        width: 100%;
        height: 100%;
        
-       @if $mode == 2 {
-         position: relative;
-         overflow: hidden;
-         .dashing {
+       position: relative;
+       overflow: hidden;
+       
+       .dashing {
+          display: block;
+          position: absolute;
+
+          div {
             display: block;
             position: absolute;
+          }
+
+          &:nth-of-type(1) {
+            animation: walking-line-1 #{$walking-line-duration}s infinite linear;
+            width: $waling-line-width;
+            height: 100%;
 
             div {
-              display: block;
-              position: absolute;
-            }
-
-            &:nth-of-type(1) {
-              animation: walking-line-1 #{$walking-line-duration}s infinite linear;
-              width: $waling-line-width;
-              height: 100%;
-
-              div {
-                left: 0;
-                top: 0;
-                width: 100%;
-                border-top: 5px solid $baseColor;
-              }
-            }
-            &:nth-of-type(2) {
+              left: 0;
+              top: 0;
               width: 100%;
-              height: $waling-line-width;
-              animation: walking-line-2 #{$walking-line-duration}s infinite linear;
-
-              div {
-                right: 0;
-                top: 0;
-                height: 100%;
-                border-right: 5px solid $baseColor;
-              }
-            }
-            &:nth-of-type(3) {
-              width: $waling-line-width;
-              height: 100%;
-              animation: walking-line-3 #{$walking-line-duration}s infinite linear;
-
-              div {
-                right: 0;
-                bottom: 0;
-                width: 100%;
-                border-bottom: 5px solid $baseColor;
-              }
-            }
-            &:nth-of-type(4) {
-              width: 100%;
-              height: $waling-line-width;
-              animation: walking-line-4 #{$walking-line-duration}s infinite linear;
-
-              div {
-                left: 0;
-                bottom: 0;
-                height: 100%;
-                border-left: 5px solid $baseColor;
-              }
+              border-top: 5px solid $baseColor;
             }
           }
-       }
-       @else {
-         border-radius: 100%;
-         animation: rotate-loading #{$circle-rotation}s linear 0s infinite normal;
-         border: 5px solid transparent;
-         border-color: transparent $baseColor transparent $baseColor;
-       }
-   }
-   
-   &:hover {
-     .loading {
-         border-color: transparent $hoverColor transparent $hoverColor;
-         
-       .dashing {
-         div {
-           border-color: $hoverColor; 
+          &:nth-of-type(2) {
+            width: 100%;
+            height: $waling-line-width;
+            animation: walking-line-2 #{$walking-line-duration}s infinite linear;
+
+            div {
+              right: 0;
+              top: 0;
+              height: 100%;
+              border-right: 5px solid $baseColor;
+            }
+          }
+          &:nth-of-type(3) {
+            width: $waling-line-width;
+            height: 100%;
+            animation: walking-line-3 #{$walking-line-duration}s infinite linear;
+
+            div {
+              right: 0;
+              bottom: 0;
+              width: 100%;
+              border-bottom: 5px solid $baseColor;
+            }
+          }
+          &:nth-of-type(4) {
+            width: 100%;
+            height: $waling-line-width;
+            animation: walking-line-4 #{$walking-line-duration}s infinite linear;
+
+            div {
+              left: 0;
+              bottom: 0;
+              height: 100%;
+              border-left: 5px solid $baseColor;
+            }
+          }
+        }
+     }
+
+     &:hover {
+       .loading {
+           border-color: transparent $hoverColor transparent $hoverColor;
+
+         .dashing {
+           div {
+             border-color: $hoverColor;
+           }
          }
        }
      }
